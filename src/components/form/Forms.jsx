@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import InputName from "./InputName";
-import {
-  validateBirthday,
-  validateContact,
-  validateFullName,
-} from "../../../utils";
 import {
   ContinueMessage,
   FormsContainer,
@@ -15,7 +10,7 @@ import InputBirthday from "./InputBirthday";
 import InputContact from "./InputContact";
 import SupportImage from "../SupportImage";
 
-function Forms({ setProgress, progress }) {
+function Forms({ setProgress }) {
   const [fullName, setFullName] = useState({
     firstName: "",
     secondName: "",
