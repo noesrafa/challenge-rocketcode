@@ -1,0 +1,11 @@
+* {
+	font-family: poppins;
+}
+
+:root {
+	/* Colors */
+	--primary-color: #F16464;
+	--button-color: #F64282;
+	--light-primary-color: #ffebeb;
+	--gray-200: #f3f7fa;
+}
