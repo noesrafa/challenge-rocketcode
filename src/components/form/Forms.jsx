@@ -10,7 +10,7 @@ import InputBirthday from "./InputBirthday";
 import InputContact from "./InputContact";
 import SupportImage from "../SupportImage";
 
-function Forms({ setProgress, progress }) {
+function Forms({ setProgress }) {
   const [fullName, setFullName] = useState({
     firstName: "",
     secondName: "",
@@ -180,7 +180,11 @@ function Forms({ setProgress, progress }) {
         month &&
         year &&
         email &&
-        cellPhone && (
+        cellPhone &&
+        !error.emailError &&
+        !error.phoneError &&
+        email.length > 3 &&
+        cellPhone.length > 7 && (
           <>
             <ContinueMessage>
               <SupportImage />
