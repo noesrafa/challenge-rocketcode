@@ -31,13 +31,12 @@ function Forms({ setProgress, progress }) {
 
   const [error, setError] = useState({
     emailError: false,
-    phoneError: false
+    phoneError: false,
   });
 
   const { firstName, secondName, lastName, secondLastName } = fullName;
   const { day, month, year } = birthday;
   const { email, cellPhone } = contact;
-  const { emailError, phoneError } = error;
 
   //Set progress bar
   useEffect(() => {
@@ -54,29 +53,52 @@ function Forms({ setProgress, progress }) {
 
   //Set error in contact
   useEffect(() => {
-    const validarEmail = (email) => {
+    const validateEmail = (email) => {
       if (
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
           email
-          )
-          ) {
-            setError({
-              ...error, emailError: false
-            })
-          } else {
-            setError({
-              ...error, emailError: true
-            })
-          }
-        };
-        if (email.length > 3) {
-          validarEmail(email);
-        } else {
-          setError({
-            ...error, emailError: false
-          })
-        }
+        )
+      ) {
+        setError({
+          ...error,
+          emailError: false,
+        });
+      } else {
+        setError({
+          ...error,
+          emailError: true,
+        });
+      }
+    };
+    if (email.length > 3) {
+      validateEmail(email);
+    } else {
+      setError({
+        ...error,
+        emailError: false,
+      });
+    }
   }, [email]);
+
+  useEffect(() => {
+    const validatePhone = (phone) => {
+      if (phone.length > 10) {
+        setError({
+          ...error,
+          phoneError: true,
+        });
+      } else {
+        setError({
+          ...error,
+          phoneError: false,
+        });
+      }
+    };
+
+    if (cellPhone.length > 3) {
+      validatePhone(cellPhone);
+    }
+  }, [cellPhone]);
 
   const handleChange = (e, formType, inputName) => {
     switch (formType) {
@@ -142,7 +164,7 @@ function Forms({ setProgress, progress }) {
         )}
 
         {/* ======= CONTACT ======= */}
-        <InputContact handleChange={handleChange} error={error}/>
+        <InputContact handleChange={handleChange} error={error} />
         {email && cellPhone && (
           <MessageFormValid>
             <span>Correo Electrónico: </span>

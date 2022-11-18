@@ -18,13 +18,16 @@ function InputContact({ handleChange, error }) {
           onChange={(e) => handleChange(e, "contact", "email")}
         />
         { error.emailError ? (
-              <div>Error</div>
+              <div className="error">*Ingresa un correo valido</div>
             ) : null}
         <Input
           type="number"
           placeholder="Teléfono celular"
           onChange={(e) => handleChange(e, "contact", "cellPhone")}
         />
+        { error.phoneError ? (
+              <div className="error">*Ingresa un número valido</div>
+            ) : null}
       </InputsContainer>
     </FormWrapper>
   );

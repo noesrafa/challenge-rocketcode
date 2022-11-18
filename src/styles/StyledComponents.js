@@ -70,6 +70,11 @@ const InputsContainer = styled.div`
   span {
     font-weight: 400;
   }
+
+  .error {
+    color: red;
+    font-weight: 500;
+  }
 `;
 
 const Input = styled.input`
