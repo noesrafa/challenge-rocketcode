@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputName from "./InputName";
 import {
   ContinueMessage,
@@ -10,7 +10,7 @@ import InputBirthday from "./InputBirthday";
 import InputContact from "./InputContact";
 import SupportImage from "../SupportImage";
 
-function Forms({ setProgress }) {
+function Forms({ setProgress, progress }) {
   const [fullName, setFullName] = useState({
     firstName: "",
     secondName: "",
@@ -29,9 +29,54 @@ function Forms({ setProgress }) {
     cellPhone: "",
   });
 
+  const [error, setError] = useState({
+    emailError: false,
+    phoneError: false
+  });
+
   const { firstName, secondName, lastName, secondLastName } = fullName;
   const { day, month, year } = birthday;
   const { email, cellPhone } = contact;
+  const { emailError, phoneError } = error;
+
+  //Set progress bar
+  useEffect(() => {
+    if (firstName.length > 1 && lastName && secondLastName) {
+      setProgress(33);
+    }
+    if (day && month && year) {
+      setProgress(66);
+    }
+    if (email && cellPhone) {
+      setProgress(100);
+    }
+  }, [fullName, birthday, contact]);
+
+  //Set error in contact
+  useEffect(() => {
+    const validarEmail = (email) => {
+      if (
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+          email
+          )
+          ) {
+            setError({
+              ...error, emailError: false
+            })
+          } else {
+            setError({
+              ...error, emailError: true
+            })
+          }
+        };
+        if (email.length > 3) {
+          validarEmail(email);
+        } else {
+          setError({
+            ...error, emailError: false
+          })
+        }
+  }, [email]);
 
   const handleChange = (e, formType, inputName) => {
     switch (formType) {
@@ -40,11 +85,6 @@ function Forms({ setProgress }) {
           ...fullName,
           [inputName]: e.target.value,
         });
-        if (firstName.length > 1 || lastName || secondLastName) {
-          setProgress("30%");
-        } else {
-          setProgress("0%");
-        }
 
         break;
       case "birthday":
@@ -52,22 +92,12 @@ function Forms({ setProgress }) {
           ...birthday,
           [inputName]: e.target.value,
         });
-        if (day && month && year) {  
-          setProgress("60%");
-        } else {
-          setProgress("30%");
-        }
         break;
       case "contact":
         setContact({
           ...contact,
           [inputName]: e.target.value,
         });
-        if (email && cellPhone) {  
-          setProgress("100%");
-        } else {
-          setProgress("60%");
-        }
         break;
 
       default:
@@ -78,7 +108,7 @@ function Forms({ setProgress }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    localStorage.setItem(
+    sessionStorage.setItem(
       "UserInfo",
       JSON.stringify({
         fechaNacimiento: birthday,
@@ -88,7 +118,7 @@ function Forms({ setProgress }) {
       })
     );
 
-    console.log(localStorage.getItem("UserInfo"));
+    console.log(sessionStorage.getItem("UserInfo"));
   };
 
   return (
@@ -112,7 +142,7 @@ function Forms({ setProgress }) {
         )}
 
         {/* ======= CONTACT ======= */}
-        <InputContact handleChange={handleChange} />
+        <InputContact handleChange={handleChange} error={error}/>
         {email && cellPhone && (
           <MessageFormValid>
             <span>Correo Electrónico: </span>

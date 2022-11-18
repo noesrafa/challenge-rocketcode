@@ -34,7 +34,7 @@ const StyledProgressBar = styled.div`
     height: 6px;
     border-radius: 10px;
     background-color: var(--primary-color);
-    width: ${(props) => props.progress};
+    width: ${(props) => props.progress + "%"};
     transition: 500ms;
   }
 `;

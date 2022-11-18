@@ -5,7 +5,7 @@ import ProgressBar from "./components/ProgressBar";
 import Forms from "./components/form/Forms";
 
 function App() {
-  const [progress, setProgress] = useState('0%');
+  const [progress, setProgress] = useState(0);
 
   return (
     <StyledApp className="App">

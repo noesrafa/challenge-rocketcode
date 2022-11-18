@@ -6,7 +6,7 @@ import {
   InputsContainer,
 } from "../../styles/StyledComponents";
 
-function InputContact({ handleChange }) {
+function InputContact({ handleChange, error }) {
   return (
     <FormWrapper>
       <SupportImage />
@@ -17,6 +17,9 @@ function InputContact({ handleChange }) {
           placeholder="Correo electrónido"
           onChange={(e) => handleChange(e, "contact", "email")}
         />
+        { error.emailError ? (
+              <div>Error</div>
+            ) : null}
         <Input
           type="number"
           placeholder="Teléfono celular"
